@@ -1,0 +1,12 @@
+[Unit]
+Description=Tailscale Proxy Service
+After=network.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/tailscale-proxy.env
+ExecStart=/usr/local/bin/tailscale-proxy
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

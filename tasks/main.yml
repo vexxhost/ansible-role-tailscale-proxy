@@ -1,0 +1,58 @@
+- name: Download tarball
+  become: true
+  ansible.builtin.get_url:
+    url: "https://github.com/vexxhost/tailscale-proxy/releases/download/v{{ tailscale_proxy_version }}/tailscale-proxy_Linux_x86_64.tar.gz"
+    dest: "/usr/local/src/tailscale-proxy-{{ tailscale_proxy_version }}.tar.gz"
+
+- name: Extract into /usr/local/bin
+  become: true
+  ansible.builtin.unarchive:
+    src: "/usr/local/src/tailscale-proxy-{{ tailscale_proxy_version }}.tar.gz"
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: Create folder for state
+  become: true
+  ansible.builtin.file:
+    path: /var/lib/tailscale-proxy
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Create environment variable file
+  become: true
+  ansible.builtin.template:
+    src: tailscale-proxy.env.j2
+    dest: /etc/tailscale-proxy.env
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Create configuration file
+  become: true
+  ansible.builtin.template:
+    src: tailscale-proxy.yaml.j2
+    dest: /etc/tailscale-proxy.yaml
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Create systemd service
+  become: true
+  ansible.builtin.template:
+    src: tailscale-proxy.service.j2
+    dest: /etc/systemd/system/tailscale-proxy.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Reload "systemd"
+    - Restart "tailscale-proxy"
+
+- name: Ensure service is started
+  become: true
+  ansible.builtin.systemd:
+    name: tailscale-proxy
+    state: started
+    enabled: yes
