@@ -28,6 +28,8 @@
     owner: root
     group: root
     mode: '0600'
+  notify:
+    - Restart "tailscale-proxy"
 
 - name: Create configuration file
   become: true
@@ -37,6 +39,8 @@
     owner: root
     group: root
     mode: '0600'
+  notify:
+    - Restart "tailscale-proxy"
 
 - name: Create systemd service
   become: true
