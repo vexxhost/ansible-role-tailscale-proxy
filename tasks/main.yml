@@ -10,6 +10,8 @@
     src: "/usr/local/src/tailscale-proxy-{{ tailscale_proxy_version }}.tar.gz"
     dest: /usr/local/bin
     remote_src: yes
+  notify:
+    - Restart "tailscale-proxy"
 
 - name: Create folder for state
   become: true
