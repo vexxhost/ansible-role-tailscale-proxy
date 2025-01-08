@@ -56,6 +56,9 @@
     - Reload "systemd"
     - Restart "tailscale-proxy"
 
+- name: Flush handlers to ensure service is started
+  ansible.builtin.meta: flush_handlers
+
 - name: Ensure service is started
   become: true
   ansible.builtin.systemd:
