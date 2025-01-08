@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 EnvironmentFile=/etc/tailscale-proxy.env
-ExecStart=/usr/local/bin/tailscale-proxy
+ExecStart=/usr/local/bin/tailscale-proxy -config /etc/tailscale-proxy.yaml
 Restart=on-failure
 
 [Install]
