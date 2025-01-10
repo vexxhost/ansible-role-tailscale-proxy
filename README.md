@@ -5,6 +5,6 @@ service using Ansible.
 
 ## Role variables
 
-- `tailscale_proxy_version`: Version to install (optional, default: `0.4.0`)
+- `tailscale_proxy_version`: Version to install (optional, default: `0.4.1`)
 - `tailscale_proxy_config`: Configuration for the service (required)
 - `tailscale_proxy_authkey`: Tailscale authentication key (required)
