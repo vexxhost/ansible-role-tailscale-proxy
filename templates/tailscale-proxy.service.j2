@@ -1,6 +1,8 @@
 [Unit]
 Description=Tailscale Proxy Service
-After=network.target
+# With a federated client ID the endpoints register with an ID token from
+# the host's tailscaled.
+After=network.target tailscaled.service
 
 [Service]
 Type=simple
